@@ -17,7 +17,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
-    private int id;
+    private Long id;
 
     @NotEmpty(message = "*Please provide a title")
     private String title;

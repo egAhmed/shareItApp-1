@@ -16,7 +16,7 @@ public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rental_id")
-    private int id;
+    private Long id;
 
     private Date start_date;
 

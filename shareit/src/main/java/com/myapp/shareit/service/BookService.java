@@ -43,7 +43,9 @@ public class BookService {
     }
     public void updateBook(Book book){
         //verific daca user e owner
-        bookRepository.save(book);
+        Book updatedBook = bookRepository.findById(book.getId())
+                .orElseThrow(() -> new BookNotFoundException("Book not found"));
+        bookRepository.save(updatedBook);
     }
     public void deleteBook(Long id){
         //verific daca user e owner
@@ -89,13 +91,13 @@ public class BookService {
         return books;
     }
 
-/*    public List<Book> getAvailableBooks(Boolean isAvailable){
-        List<Book> books = bookRepository.findByAvailable(isAvailable);
+    public List<Book> getAvailableBooks() {
+        List<Book> books = bookRepository.findByAvailableTrue();
         if (books==null || books.isEmpty()){
             throw new BookNotFoundException("No books available");
         }
         return books;
-    }*/
+    }
 
     public List<Book> getBooksByAuthor(String firstName, String lastName) {
         Author author = authorRepository.findByFirstNameAndLastName(firstName, lastName)

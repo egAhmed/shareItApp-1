@@ -13,7 +13,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitle(String bookTitle);
 
-    //List<Book> findByIsAvailable(Boolean isAvailable);
+    List<Book> findByAvailableTrue();
     List<Book> findByOwner_Id(Long userId);
 
     List<Book> findByCategories(Category category);
