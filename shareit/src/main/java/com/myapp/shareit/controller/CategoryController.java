@@ -2,14 +2,13 @@ package com.myapp.shareit.controller;
 
 import com.myapp.shareit.domain.Category;
 import com.myapp.shareit.service.CategoryService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/category")
 public class CategoryController {
     private CategoryService categoryService;

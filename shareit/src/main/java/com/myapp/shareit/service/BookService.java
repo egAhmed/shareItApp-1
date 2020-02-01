@@ -1,7 +1,14 @@
 package com.myapp.shareit.service;
 
+import com.myapp.shareit.domain.Author;
 import com.myapp.shareit.domain.Book;
+import com.myapp.shareit.domain.Category;
+import com.myapp.shareit.exceptions.AuthorNotFoundException;
+import com.myapp.shareit.exceptions.BookNotFoundException;
+import com.myapp.shareit.exceptions.CategoryNotFoundException;
+import com.myapp.shareit.repository.AuthorRepository;
 import com.myapp.shareit.repository.BookRepository;
+import com.myapp.shareit.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +19,14 @@ import java.util.Optional;
 public class BookService {
 
     private BookRepository bookRepository;
+    private CategoryRepository categoryRepository;
+    private AuthorRepository authorRepository;
 
-    public BookService(BookRepository bookRepository){
+    public BookService(BookRepository bookRepository, CategoryRepository categoryRepository,
+                       AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
+        this.authorRepository = authorRepository;
     }
 
     public List<Book> getAll(){
@@ -38,15 +50,64 @@ public class BookService {
         bookRepository.findById(id).ifPresent(bookRepository::delete);
     }
 
-    public void addBookToCategory(Long book_id,Long category_id){
+    public void addBookToCategory(Long book_id, Long category_id){
+        Category category = categoryRepository.findById(category_id)
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+        Book book = bookRepository.findById(book_id).orElseThrow(() ->
+                new BookNotFoundException("Book not found"));
+        category.getBooks().add(book);
+        categoryRepository.save(category);
 
     }
-    //public List<Book> getBookByCategory(Long category_id){}
 
-    //public List<Book> getBookByOwner(Long owner_id){}
+    public List<Book> getBooksByCategory(String category_name) {
+        Category category = categoryRepository.findByName(category_name)
+                .orElseThrow(() -> new CategoryNotFoundException("Category " + category_name
+                        + " not found"));
 
-    //public List<Book> getBookByTitle(Long category_id){}
+        List<Book> books = bookRepository.findByCategories(category);
+        if (books == null || books.isEmpty()) {
+            throw new BookNotFoundException("No books found from category " + category_name);
+        }
+        return books;
+    }
 
-    //public List<Book> getAvailableBooks(Long category_id){}
+
+    public List<Book> getBooksByOwner(Long owner_id) {
+        List<Book> books = bookRepository.findByOwner_Id(owner_id);
+        if (books == null || books.isEmpty()) {
+            throw new BookNotFoundException("User " + owner_id + "has no books registered");
+        }
+        return books;
+    }
+
+    public List<Book> getBooksByTitle(String bookTitle) {
+        List<Book> books = bookRepository.findByTitle(bookTitle);
+        if (books == null || books.isEmpty()) {
+            throw new BookNotFoundException("Book with title " + bookTitle + " not found");
+        }
+        return books;
+    }
+
+/*    public List<Book> getAvailableBooks(Boolean isAvailable){
+        List<Book> books = bookRepository.findByAvailable(isAvailable);
+        if (books==null || books.isEmpty()){
+            throw new BookNotFoundException("No books available");
+        }
+        return books;
+    }*/
+
+    public List<Book> getBooksByAuthor(String firstName, String lastName) {
+        Author author = authorRepository.findByFirstNameAndLastName(firstName, lastName)
+                .orElseThrow(() -> new AuthorNotFoundException("No author with first name " +
+                        firstName + " and last name " + lastName));
+        List<Book> books = bookRepository.findByAuthors(author);
+        if (books == null || books.isEmpty()) {
+            throw new BookNotFoundException("No books from this author");
+        }
+        return books;
+    }
+
+
 
 }

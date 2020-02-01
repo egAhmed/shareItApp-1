@@ -2,7 +2,6 @@ package com.myapp.shareit.service;
 
 import com.myapp.shareit.domain.Category;
 import com.myapp.shareit.exceptions.CategoryNotFoundException;
-import com.myapp.shareit.repository.BookRepository;
 import com.myapp.shareit.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +11,9 @@ import java.util.Optional;
 @Service
 public class CategoryService {
     private CategoryRepository categoryRepository;
-    private BookRepository bookRepository;
 
-    public CategoryService(CategoryRepository categoryRepository, BookRepository bookRepository){
+    public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository=categoryRepository;
-        this.bookRepository = bookRepository;
     }
 
     public Optional<Category> getCategory(Long id){

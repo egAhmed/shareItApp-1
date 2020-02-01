@@ -4,15 +4,14 @@ import com.myapp.shareit.domain.Author;
 import com.myapp.shareit.exceptions.AuthorNotFoundException;
 import com.myapp.shareit.repository.AuthorRepository;
 import com.myapp.shareit.service.AuthorService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-@RequestMapping("author")
+@RestController
+@RequestMapping("/author")
 public class AuthorController {
     private AuthorService authorService;
     private AuthorRepository authorRepository;

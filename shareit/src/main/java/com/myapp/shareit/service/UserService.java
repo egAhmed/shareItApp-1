@@ -1,15 +1,9 @@
 package com.myapp.shareit.service;
 
 
-
 import com.myapp.shareit.domain.User;
-
 import com.myapp.shareit.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 @Service
 public class UserService {
