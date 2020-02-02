@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Data
 @Entity
@@ -39,12 +40,10 @@ public class User {
     @NotEmpty(message = "*Please provide your last name")
     private String last_name;
 
-/*    @OneToMany(mappedBy = "user")
-    Set<Rental> rentals;*/
 
-/*    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;*/
+    @OneToMany(mappedBy = "user")
+    Set<Rental> rentals;
+
 
 
 }

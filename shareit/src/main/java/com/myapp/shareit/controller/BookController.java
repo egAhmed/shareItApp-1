@@ -47,6 +47,11 @@ public class BookController {
         bookService.addBookToCategory(book_id, category_id);
     }
 
+    @PutMapping("/{book_id}/author/{author_id}")
+    public void addAuthorToBook(@PathVariable Long book_id, @PathVariable Long author_id) {
+        bookService.addAuthorToBook(book_id, author_id);
+    }
+
     @GetMapping("/category/{category_name}")
     public List<Book> getBooksByCategory(@PathVariable String category_name) {
         return bookService.getBooksByCategory(category_name);

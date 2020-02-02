@@ -9,6 +9,7 @@ import com.myapp.shareit.exceptions.CategoryNotFoundException;
 import com.myapp.shareit.repository.AuthorRepository;
 import com.myapp.shareit.repository.BookRepository;
 import com.myapp.shareit.repository.CategoryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 
 @Service
+@Slf4j
 public class BookService {
 
     private BookRepository bookRepository;
@@ -59,6 +61,16 @@ public class BookService {
                 new BookNotFoundException("Book not found"));
         category.getBooks().add(book);
         categoryRepository.save(category);
+
+    }
+
+    public void addAuthorToBook(Long book_id, Long author_id) {
+        Author author = authorRepository.findById(author_id)
+                .orElseThrow(() -> new AuthorNotFoundException("Author not found"));
+        Book book = bookRepository.findById(book_id).orElseThrow(() ->
+                new BookNotFoundException("Book not found"));
+        author.getBooks().add(book);
+        log.info("Book with id: " + book_id + " has new author with id: " + authorRepository.save(author).getId());
 
     }
 

@@ -26,7 +26,7 @@ public class Book {
 
     private String isbn_code;
 
-    private boolean isAvailable;
+    private boolean available;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,13 +40,10 @@ public class Book {
 
     @ManyToMany(mappedBy = "books")
     private Set<Category> categories;
-/*
 
-    @OneToMany(mappedBy = "books")
+
+    @OneToMany(mappedBy = "book")
     private Set<Rental> rentals;
-*/
-
-
 
 
 }
